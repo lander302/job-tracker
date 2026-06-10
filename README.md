@@ -4,7 +4,7 @@ A lightweight, database-backed command-line interface (CLI) application built in
 
 This project demonstrates core **CRUD (Create, Read, Update, Delete)** operations, database persistence, secure SQL parameterization, and clean terminal state management.
 
-# Features
+## Features
 
 - **Create:** Easily add new job applications with key details (Company, Role, Date, and Status).
 - **Read:** View a formatted table of all active applications with a manual screen-pause to prevent terminal buffer overrun.
@@ -12,7 +12,7 @@ This project demonstrates core **CRUD (Create, Read, Update, Delete)** operation
 - **Delete:** Remove accidental entries with built-in user confirmation checks.
 - **Dynamic Search:** Query the database using SQL wildcards to instantly filter by Company, Role, or Status keywords.
 
-# Tech Stack & Concepts Demonstrated
+## Tech Stack & Concepts Demonstrated
 
 - **Language:** Python 3
 - **Database:** SQLite3 (Embedded relational database)
@@ -20,9 +20,9 @@ This project demonstrates core **CRUD (Create, Read, Update, Delete)** operation
 - **Error Handling:** Utilized `try-except` blocks to handle invalid data inputs (e.g., non-numerical IDs) without crashing the application.
 - **Version Control:** Managed completely via Git/GitHub with structured semantic commit histories.
 
-# Installation & How to Run
+## Installation & How to Run
 
-## Prerequisites
+### Prerequisites
 Ensure you have Python 3 installed on your machine.
 
 ### Setup Instructions
@@ -36,7 +36,7 @@ Ensure you have Python 3 installed on your machine.
 3. ```bash
     python main.py
 
-#### Future Enhancements
+### Future Enhancements
 
 Graphical User Interface (GUI): Transition the project from a CLI to a desktop application using Tkinter or CustomTkinter.
 
