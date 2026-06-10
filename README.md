@@ -34,7 +34,7 @@ Ensure you have Python 3 installed on your machine.
     cd job-tracker
 
 3. ```bash
-python main.py
+    python main.py
 
 #### Future Enhancements
 
