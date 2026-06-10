@@ -35,7 +35,6 @@ def update_status(app_id, new_status):
     conn = sqlite3.connect("applications.db")
     cursor = conn.cursor()
     
-    # Check if the ID actually exists first
     cursor.execute("SELECT * FROM applications WHERE id = ?", (app_id,))
     if not cursor.fetchone():
         print(f"\n[ERROR] Application ID {app_id} not found.")
@@ -68,6 +67,30 @@ def delete_application(app_id):
     conn.close()
     print(f"\n[SUCCESS] Application #{app_id} has been deleted.")
 
+def search_applications(keyword):
+    """Searches for applications matching a keyword in company, role, or status."""
+    conn = sqlite3.connect("applications.db")
+    cursor = conn.cursor()
+    
+    # The % wildcards mean "contains this keyword"
+    search_query = f"%{keyword}%"
+    cursor.execute("""
+        SELECT * FROM applications 
+        WHERE company LIKE ? OR role LIKE ? OR status LIKE ?
+    """, (search_query, search_query, search_query))
+    
+    rows = cursor.fetchall()
+    conn.close()
+    
+    if not rows:
+        print(f"\n[INFO] No results found matching '{keyword}'.")
+        return
+        
+    print(f"\n=================== SEARCH RESULTS FOR '{keyword}' ===================")
+    for row in rows:
+        print(f"ID: {row[0]} | Company: {row[1]} | Role: {row[2]} | Date: {row[3]} | Status: {row[4]}")
+    print("=====================================================================")
+
 def main():
     initialize_db()
     
@@ -77,9 +100,10 @@ def main():
         print("2. View All Applications")
         print("3. Update Application Status")
         print("4. Delete Application")
-        print("5. Exit")
+        print("5. Search/Filter Applications")
+        print("6. Exit")
         
-        choice = input("Choose an option (1-5): ").strip()
+        choice = input("Choose an option (1-6): ").strip()
         
         if choice == "1":
             company = input("Enter Company Name: ")
@@ -89,13 +113,12 @@ def main():
             add_application(company, role, date_applied, status)
             
         elif choice == "2":
-            # adding in text so that the user only sees the applications and must return to menu on their own accord (cleaner)
             view_applications()
             print("\n-------------------------------------------------------------")
             input("Press Enter to return to the Main Menu...")
             
         elif choice == "3":
-            view_applications() # Show them the IDs first so they know what to pick
+            view_applications()
             try:
                 app_id = int(input("\nEnter the ID of the application to update: "))
                 new_status = input("Enter new status (e.g., Interview, Rejected, Offer): ")
@@ -114,12 +137,21 @@ def main():
                     print("\nDeletion cancelled.")
             except ValueError:
                 print("\n[ERROR] Please enter a valid numerical ID.")
-            
+        
         elif choice == "5":
+            keyword = input("Enter a keyword to search (Company, Role, or Status): ").strip()
+            if keyword:
+                search_applications(keyword)
+            else:
+                print("\n[ERROR] Search keyword cannot be blank.")
+            print("\n-------------------------------------------------------------")
+            input("Press Enter to return to the Main Menu...")
+            
+        elif choice == "6":
             print("\nExiting tracker. Good luck with your job search!")
             break
         else:
-            print("\n[ERROR] Invalid option. Please enter 1-5.")
+            print("\n[ERROR] Invalid option. Please enter 1-6.")
 
 if __name__ == "__main__":
     main()
